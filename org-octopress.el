@@ -27,7 +27,7 @@
 
 (require 'org)
 (require 'orglue-publish)
-(require 'ox-jekyll)
+(require 'ox-octo-md)
 (require 'ctable)
 
 ;;; Publishing
@@ -65,7 +65,7 @@
         :base-extension "org"
         :recursive nil
         :exclude "/[^0-9][^/]+\\.org$" ;; XXXX
-        :publishing-function org-jekyll-publish-to-html
+        :publishing-function org-octo-md-publish-to-md
         )
        ("octopress-org"
         :base-directory ,org-top
@@ -73,7 +73,7 @@
         :base-extension "org"
         :exclude "[0-9]\\{4\\}-[0-9][0-9]-[0-9][0-9]-.*\\.org$"
         :recursive t
-        :publishing-function org-jekyll-publish-to-html
+        :publishing-function org-octo-md-publish-to-md
         )
        ("octopress-static"
         :base-directory ,org-top
@@ -119,7 +119,7 @@
                 (org-octopress--new-post-file-name title date)
                 org-octopress-directory-org-posts))
     (save-excursion
-      (org-jekyll-insert-export-options-template title date org-octopress-setup-file nil "true"))
+      (org-octo-md-insert-export-options-template title date org-octopress-setup-file nil "true"))
     (search-forward "TITLE: " nil t)))
 
 ;; delete post
@@ -206,11 +206,11 @@
 (defun org-octopress--scan-post ()
   (mapcar
    (lambda (filename)
-     (org-jekyll-property
+     (org-octo-md-property
       '(:date
-        :jekyll-categories
+        :octo-md-categories
         :title
-        :jekyll-published
+        :octo-md-published
         :input-file)
       filename))
    (directory-files
