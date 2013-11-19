@@ -148,9 +148,12 @@ holding export options."
       plist)))
 
 (defun org-octo-md-property (keys &optional filename)
-  (let ((plist (org-octo-md-property-list filename)))
-    (mapcar (lambda (key) (org-export-data-with-backend (plist-get plist key) 'octo-md plist))
-            keys)))
+ (let ((plist (org-octo-md-property-list filename)))
+   (mapcar (lambda (key)
+             (if (eq key :input-file)
+                 (plist-get plist key) 
+               (org-export-data-with-backend (plist-get plist key) 'octo-md plist)))
+           keys)))
 
 (defun org-octo-md-date-from-property (&optional filename)
   (let ((plist (org-octo-md-property filename)))
